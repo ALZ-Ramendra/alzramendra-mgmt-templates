@@ -65,7 +65,7 @@ jobs:
   whatif:
     name: What If
     runs-on:
-      self-hosted
+      ubuntu-latest
     concurrency: mgmt-tfstate
     environment: alzramendra-mgmt-plan
     permissions:
@@ -380,7 +380,7 @@ jobs:
     needs: whatif
     if: ${{ always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') }}
     runs-on:
-      self-hosted
+      ubuntu-latest
     concurrency: mgmt-tfstate
     environment: alzramendra-mgmt-apply
     permissions:
