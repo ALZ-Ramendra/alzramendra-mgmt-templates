@@ -57,6 +57,9 @@ on:
       networking-hubnetworking:
         type: boolean
         default: true
+      networking-virtualwan:
+        type: boolean
+        default: false
 
 jobs:
   whatif:
@@ -356,6 +359,20 @@ jobs:
           deploymentType: 'subscription'
           firstRunWhatIf: 'false'
           whatIfEnabled: 'true'
+      - name: 'Plan: Networking-Virtual WAN'
+        uses: ALZ-Ramendra/alzramendra-mgmt-templates/.github/actions/bicep-deploy@main
+        if: ${{ inputs.networking-virtualwan }}
+        with:
+          name: 'networking-virtualwan'
+          displayName: 'Networking-Virtual WAN'
+          templateFilePath: 'templates/networking/virtualwan/main.bicep'
+          templateParametersFilePath: 'templates/networking/virtualwan/main.bicepparam'
+          subscriptionId: '${{ env.SUBSCRIPTION_ID_CONNECTIVITY }}'
+          resourceGroupName: ''
+          location: '${{ env.LOCATION }}'
+          deploymentType: 'subscription'
+          firstRunWhatIf: 'false'
+          whatIfEnabled: 'true'
 
 
   deploy:
@@ -618,3 +635,15 @@ jobs:
           location: '${{ env.LOCATION }}'
           deploymentType: 'subscription'
 
+      - name: 'Deploy: Networking-Virtual WAN'
+        uses: ALZ-Ramendra/alzramendra-mgmt-templates/.github/actions/bicep-deploy@main
+        if: ${{ inputs.networking-virtualwan }}
+        with:
+          name: 'networking-virtualwan'
+          displayName: 'Networking-Virtual WAN'
+          templateFilePath: 'templates/networking/virtualwan/main.bicep'
+          templateParametersFilePath: 'templates/networking/virtualwan/main.bicepparam'
+          subscriptionId: '${{ env.SUBSCRIPTION_ID_CONNECTIVITY }}'
+          resourceGroupName: ''
+          location: '${{ env.LOCATION }}'
+          deploymentType: 'subscription'
